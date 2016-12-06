@@ -1,0 +1,126 @@
+<extend name='Layout:cart_base'/>
+<block name="css">
+    <link rel="stylesheet" href="__CSS__/fillin.css" type="text/css"/>
+</block>
+<block name='main'>
+    <!-- 主体部分 start -->
+    <div class="fillin w990 bc mt15">
+        <form method="post" action="{:U('Order/create')}">
+            <div class="fillin_hd">
+                <h2>填写并核对订单信息</h2>
+            </div>
+
+            <div class="fillin_bd">
+                <!-- 收货人信息  start-->
+                <div class="address">
+                    <h3>收货人信息</h3>
+                    <div class="address_info">
+                        <foreach name='addresses' item='address'>
+                            <p>
+                                <input type="radio" value="{$address.id}" name="address_id" <eq name='address.is_default' value='1'>checked="checked"</eq>/>{$address.name}  {$address.tel}  {$address.province_name} {$address.city_name} {$address.area_name} {$address.detail_address} 
+                            </p>
+                        </foreach>
+                    </div>
+
+                </div>
+                <!-- 收货人信息  end-->
+
+                <!-- 配送方式 start -->
+                <div class="delivery">
+                    <h3>送货方式</h3>
+                    <div class="delivery_info">
+                        <p>
+                            <input type="radio" value="1" name="delivery_id" checked="checked"/> 顺丰 运费25,速度快,价格高
+                        </p>
+                        <p>
+                            <input type="radio" value="2" name="delivery_id" /> 天天 运费10,速度一般,价格便宜
+                        </p>
+                        <p>
+                            <input type="radio" value="3" name="delivery_id" /> 自提 你来,我一直在
+                        </p>
+                    </div>
+                </div> 
+                <!-- 配送方式 end --> 
+
+                <!-- 支付方式  start-->
+                <div class="pay">
+                    <h3>支付方式</h3>
+                    <div class="pay_info">
+                        <p>
+                            <input type="radio" value="1" name="payment" checked="checked"/> 微信支付
+                        </p>
+                        <p>
+                            <input type="radio" value="2" name="payment"/> 银联在线
+                        </p>
+                        <p>
+                            <input type="radio" value="3" name="payment"/> 邮局汇款
+                        </p>
+                        <p>
+                            <input type="radio" value="4" name="payment"/> 货到付款
+                        </p>
+                    </div>
+
+                </div>
+                <!-- 支付方式  end-->
+
+                <!-- 商品清单 start -->
+                <div class="goods">
+                    <h3>商品清单</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col1">商品</th>
+                                <th class="col3">价格</th>
+                                <th class="col4">数量</th>
+                                <th class="col5">小计</th>
+                            </tr>	
+                        </thead>
+                        <tbody>
+                        <foreach name="cart_detail" item="goods">
+                            <tr>
+                                <td class="col1"><a href="{:U('Index/goods',['id'=>$goods['id']])}"><img src="{$goods.logo}" alt="" /></a>  <strong><a href="{:U('Index/goods',['id'=>$goods['id']])}">{$goods.name}</a></strong></td>
+                                <td class="col3">￥{$goods.shop_price}</td>
+                                <td class="col4"> {$goods.amount}</td>
+                                <td class="col5"><span>￥{$goods.sub_total}</span></td>
+                            </tr>
+                        </foreach>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <ul>
+                                        <li>
+                                            <span>4 件商品，总商品金额：</span>
+                                            <em>￥5316.00</em>
+                                        </li>
+                                        <li>
+                                            <span>返现：</span>
+                                            <em>-￥240.00</em>
+                                        </li>
+                                        <li>
+                                            <span>运费：</span>
+                                            <em>￥10.00</em>
+                                        </li>
+                                        <li>
+                                            <span>应付总额：</span>
+                                            <em>￥5076.00</em>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- 商品清单 end -->
+
+            </div>
+
+            <div class="fillin_ft">
+                <a href="javascript:$('form').submit();"><span>提交订单</span></a>
+                <p>应付总额：<strong>￥{$total_price}元</strong></p>
+
+            </div>
+        </form>
+    </div>
+    <!-- 主体部分 end -->
+</block>
